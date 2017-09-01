@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from plone.app.contenttypes.browser.collection import CollectionView
-from collective.sortedlisting.behavior import SortableCollection
+from collective.sortedlisting.behavior import SortableCollectionBehavior
 
 
 class SortableCollectionView(CollectionView):
 
     @property
     def collection_behavior(self):
-        return SortableCollection(aq_inner(self.context))
+        return SortableCollectionBehavior(aq_inner(self.context))

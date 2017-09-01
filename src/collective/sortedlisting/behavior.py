@@ -14,7 +14,7 @@ from plone.batching import Batch
 
 
 @provider(IFormFieldProvider)
-class ISortableCollection(ICollection):
+class ISortableCollectionBehavior(ICollection):
 
     # override QueryString widget with our sortable version
     form.widget('query', SortableQueryStringFieldWidget)
@@ -30,15 +30,16 @@ class ISortableCollection(ICollection):
         required=False,
     )
 
-@implementer_only(ISortableCollection)
+
+@implementer_only(ISortableCollectionBehavior)
 @adapter(IDexterityContent)
-class SortableCollection(Collection):
+class SortableCollectionBehavior(Collection):
     """ """
 
     def results(self, batch=True, b_start=0, b_size=None,
                 sort_on=None, limit=None, brains=False,
                 custom_query=None):
-        results = super(SortableCollection, self).results(
+        results = super(SortableCollectionBehavior, self).results(
             batch, b_start, b_size, sort_on, limit, brains, custom_query)
         # apply the custom sorting to the resultset according to
         # our sorting list

@@ -34,18 +34,18 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a SortedCollection
+Scenario: As a site administrator I can add a SortableCollection
   Given a logged-in site administrator
     and an add sortedcollection form
-   When I type 'My SortedCollection' into the title field
+   When I type 'My SortableCollection' into the title field
     and I submit the form
-   Then a sortedcollection with the title 'My SortedCollection' has been created
+   Then a sortedcollection with the title 'My SortableCollection' has been created
 
-Scenario: As a site administrator I can view a SortedCollection
+Scenario: As a site administrator I can view a SortableCollection
   Given a logged-in site administrator
-    and a sortedcollection 'My SortedCollection'
+    and a sortedcollection 'My SortableCollection'
    When I go to the sortedcollection view
-   Then I can see the sortedcollection title 'My SortedCollection'
+   Then I can see the sortedcollection title 'My SortableCollection'
 
 
 *** Keywords *****************************************************************
@@ -56,10 +56,10 @@ a logged-in site administrator
   Enable autologin as  Site Administrator
 
 an add sortedcollection form
-  Go To  ${PLONE_URL}/++add++SortedCollection
+  Go To  ${PLONE_URL}/++add++SortableCollection
 
-a sortedcollection 'My SortedCollection'
-  Create content  type=SortedCollection  id=my-sortedcollection  title=My SortedCollection
+a sortedcollection 'My SortableCollection'
+  Create content  type=SortableCollection  id=my-sortedcollection  title=My SortableCollection
 
 
 # --- WHEN -------------------------------------------------------------------

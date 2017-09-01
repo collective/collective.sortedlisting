@@ -2,6 +2,8 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zope"
     i18n_domain="collective.sortedlisting">
 
   <i18n:registerTranslations directory="locales" />
@@ -31,5 +33,29 @@
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="collective.sortedlisting-hiddenprofiles" />
+
+    <plone:behavior
+    name="collective.sortedlisting.sortablecollection"
+    title="Sorted Collection"
+    description="Adds collection behavior with sorting support"
+    provides=".behavior.ISortableCollectionBehavior"
+    factory=".behavior.SortableCollectionBehavior"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    marker="plone.app.contenttypes.behaviors.collection.ISyndicatableCollection"
+    />
+
+  <!-- configure zcml:condition="installed plone.app.mosaic">
+    <include package="plone.app.standardtiles" />
+      <plone:tile
+        name="collective.sortablequerystring.contentlisting"
+        title="Sortable Content listing"
+        description='Display the results of a saved search of the site content with sorting support'
+        permission="zope2.View"
+        add_permission="cmf.ModifyPortalContent"
+        class=".tile.SortableContentListingTile"
+        schema=".tile.ISortableContentListingTile"
+        for="*"
+        />
+  </configure -->
 
 </configure>
