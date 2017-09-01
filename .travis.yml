@@ -1,0 +1,26 @@
+language: python
+sudo: false
+cache:
+  directories:
+  - eggs
+  - downloads
+python:
+  - 2.7.13
+matrix:
+  fast_finish: true
+install:
+  - pip install -r requirements.txt
+  - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True annotate
+  - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True
+before_script:
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- firefox -v
+script:
+  - bin/code-analysis
+  - bin/coverage run bin/test
+after_success:
+  - bin/coveralls
+notifications:
+  email:
+    - itconsense@gmail.com
