@@ -21,11 +21,6 @@ class SortableCollectionIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.installer = api.portal.get_tool('portal_quickinstaller')
 
-    def test_schema(self):
-        fti = queryUtility(IDexterityFTI, name='SortableCollection')
-        schema = fti.lookupSchema()
-        self.assertEqual(ISortableCollection, schema)
-
     def test_fti(self):
         fti = queryUtility(IDexterityFTI, name='SortableCollection')
         self.assertTrue(fti)
@@ -43,3 +38,10 @@ class SortableCollectionIntegrationTest(unittest.TestCase):
             id='SortableCollection',
         )
         self.assertTrue(ISortableCollection.providedBy(obj))
+
+    def test_content_type(self):
+        obj = api.content.create(
+            container=self.portal,
+            type='SortableCollection',
+            id='SortableCollection',
+        )

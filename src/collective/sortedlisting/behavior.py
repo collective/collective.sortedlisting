@@ -47,6 +47,8 @@ class SortableCollectionBehavior(Collection):
         results = sorted(
             results, key=lambda item: positions.get(item.uuid(), 999))
         if batch:
+            if not b_size:
+                b_size = self.item_count
             results = Batch(results, b_size, start=b_start)
         return results
 

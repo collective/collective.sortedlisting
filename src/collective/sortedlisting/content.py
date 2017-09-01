@@ -10,4 +10,8 @@ class SortableCollection(Collection):
     """ """
 
 
+    def results(self, **kwargs):
+        from collective.sortedlisting.behavior import SortableCollectionBehavior
+        return SortableCollectionBehavior(self).results(**kwargs)
+
 # EOF

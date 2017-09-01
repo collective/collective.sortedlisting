@@ -53,3 +53,10 @@ class TestUninstall(unittest.TestCase):
         self.assertNotIn(
            ICollectiveSortedlistingLayer,
            utils.registered_layers())
+
+    def test_hiddenprofiles(self):
+        """ Test uninstall profile is hidden
+        """
+        from collective.sortedlisting.setuphandlers import HiddenProfiles
+        hidden_profiles = HiddenProfiles().getNonInstallableProfiles()
+        self.assertIn('collective.sortedlisting:uninstall', hidden_profiles)
