@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
-from plone.app.contenttypes.browser.collection import CollectionView
 from collective.sortedlisting.behavior import SortableCollectionBehavior
+from plone.app.contenttypes.browser.collection import CollectionView
 
 
 class SortableCollectionView(CollectionView):

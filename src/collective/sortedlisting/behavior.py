@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from collective.sortedlisting import _
 from collective.sortedlisting.widget import SortableQueryStringFieldWidget
-from plone.app.contenttypes.behaviors.collection import ICollection
 from plone.app.contenttypes.behaviors.collection import Collection
+from plone.app.contenttypes.behaviors.collection import ICollection
 from plone.autoform import directives as form
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.batching import Batch
 from plone.dexterity.interfaces import IDexterityContent
 from zope import schema
 from zope.component import adapter
 from zope.interface import implementer_only
 from zope.interface import provider
-from plone.autoform.interfaces import IFormFieldProvider
-from plone.batching import Batch
 
 
 @provider(IFormFieldProvider)

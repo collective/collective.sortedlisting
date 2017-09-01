@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+from collective.sortedlisting.interfaces import ISortableCollection
+from collective.sortedlisting.testing import COLLECTIVE_SORTEDLISTING_INTEGRATION_TESTING  # noqa
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
-from collective.sortedlisting.interfaces import ISortableCollection
-from collective.sortedlisting.testing import COLLECTIVE_SORTEDLISTING_INTEGRATION_TESTING  # noqa
 from zope.component import createObject
 from zope.component import queryUtility
 

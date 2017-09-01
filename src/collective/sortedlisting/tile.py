@@ -43,8 +43,6 @@ class SortableContentListingTile(contentlisting.ContentListingTile):
         positions = {j: i for i, j in enumerate(sorting)}
         results = sorted(
             results, key=lambda item: positions.get(item.uuid(), 999))
-        print(results)
-
         view = self.view_template or 'listing_view'
         view = view.encode('utf-8')
         options = dict(original_context=self.context)

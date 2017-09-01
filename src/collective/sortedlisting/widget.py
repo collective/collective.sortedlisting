@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from plone.app.z3cform.widget import IQueryStringWidget
 from plone.app.z3cform.widget import QueryStringWidget
-from zope.interface import implementer
-from zope.interface import implementer_only
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.widget import FieldWidget
+from zope.interface import implementer
+from zope.interface import implementer_only
 
 
 __author__ = 'Tom Gross <itconsense@gmail.com>'
@@ -37,12 +37,11 @@ class SortableQueryStringWidget(QueryStringWidget):
         """
         args = super(SortableQueryStringWidget, self)._base_args()
         previewURL = args['pattern_options']['previewURL']
-        if 'sortable' not in  previewURL:
-            args['pattern_options']['previewURL'] = previewURL.replace(
-                'querybuilder_html_results',
-                'sortable_querybuilder_html_results',
-                1
-            )
+        args['pattern_options']['previewURL'] = previewURL.replace(
+            '@@querybuilder_html_results',
+            '@@sortable_querybuilder_html_results',
+            1
+        )
         return args
 
 
