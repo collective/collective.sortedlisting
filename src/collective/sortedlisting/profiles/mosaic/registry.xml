@@ -10,7 +10,7 @@
     </value>
   </record>
 
-  <records prefix="plone.app.mosaic.app_tiles.collective.sortablequerystring_contentlisting"
+  <records prefix="plone.app.mosaic.app_tiles.c_sortablequerystring_contentlisting"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">collective.sortablequerystring.contentlisting</value>
     <value key="label">Sortable Content listing</value>
