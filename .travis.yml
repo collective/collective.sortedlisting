@@ -1,5 +1,7 @@
 language: python
 sudo: false
+addons:
+  firefox: "54.0"
 cache:
   directories:
   - eggs
