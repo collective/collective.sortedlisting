@@ -27,7 +27,7 @@ Features
 
 If you install a package it will provide a custom
 contenttype (SortableCollection) which has the same
-features as the standard Collection type and additionally 
+features as the standard Collection type and additionally
 allows the sorting of the results in the preview section
 with drag&drop.
 
@@ -63,6 +63,14 @@ and then running ``bin/buildout``
 
 Development
 -----------
+
+.. image:: https://travis-ci.org/collective/collective.sortedlisting.svg?branch=master
+    :target: https://travis-ci.org/collective/collective.sortedlisting
+
+
+.. image:: https://coveralls.io/repos/github/collective/collective.sortedlisting/badge.svg?branch=master
+:target: https://coveralls.io/github/collective/collective.sortedlisting?branch=master
+
 
 Build mockup (only Plone 5.1b4 and below)
 
