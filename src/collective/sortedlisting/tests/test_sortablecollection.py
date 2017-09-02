@@ -38,10 +38,3 @@ class SortableCollectionIntegrationTest(unittest.TestCase):
             id='SortableCollection',
         )
         self.assertTrue(ISortableCollection.providedBy(obj))
-
-    def test_content_type(self):
-        obj = api.content.create(
-            container=self.portal,
-            type='SortableCollection',
-            id='SortableCollection',
-        )

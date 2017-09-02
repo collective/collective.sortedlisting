@@ -48,7 +48,7 @@ class SortableQueryStringWidget(QueryStringWidget):
 @implementer(IFieldWidget)
 def SortableQueryStringFieldWidget(field, request, extra=None):
     if extra is not None:
-        request = extra
+        request = extra   # pragma: no cover
     return FieldWidget(field, SortableQueryStringWidget(request))
 
 
