@@ -65,7 +65,7 @@ a sortedcollection 'My SortableCollection'
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  name=form.widgets.title  ${title}
+  Input Text  name=form.widgets.IDublinCore.title  ${title}
 
 I submit the form
   Click Button  Save

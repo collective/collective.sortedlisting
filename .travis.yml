@@ -18,7 +18,7 @@ before_script:
 - firefox -v
 script:
   - bin/code-analysis
-  - bin/coverage run bin/test
+  - bin/coverage run bin/test --all
 after_success:
   - bin/coveralls
 notifications:
