@@ -3,7 +3,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
-    xmlns:zcml="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="collective.sortedlisting">
 
   <i18n:registerTranslations directory="locales" />
@@ -34,7 +34,7 @@
       factory=".setuphandlers.HiddenProfiles"
       name="collective.sortedlisting-hiddenprofiles" />
 
-    <plone:behavior
+  <plone:behavior
     name="collective.sortedlisting.sortablecollection"
     title="Sorted Collection"
     description="Adds collection behavior with sorting support"
@@ -44,8 +44,19 @@
     marker="plone.app.contenttypes.behaviors.collection.ISyndicatableCollection"
     />
 
-  <!-- configure zcml:condition="installed plone.app.mosaic">
-    <include package="plone.app.standardtiles" />
+  <configure zcml:condition="installed plone.app.mosaic">
+
+    <include package="plone.app.mosaic" />
+
+      <genericsetup:registerProfile
+        name="mosaic"
+        title="collective.sortedlisting (mosaic)"
+        directory="profiles/mosaic"
+        description="Installs the mosaic part of the collective.sortedlisting add-on."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        post_handler=".setuphandlers.post_install_mosaic"
+        />
+
       <plone:tile
         name="collective.sortablequerystring.contentlisting"
         title="Sortable Content listing"
@@ -56,6 +67,7 @@
         schema=".tile.ISortableContentListingTile"
         for="*"
         />
-  </configure -->
+
+  </configure>
 
 </configure>

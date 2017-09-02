@@ -39,19 +39,17 @@ setup(
     zip_safe=False,
     install_requires=[
         'plone.api',
-        'Products.GenericSetup>=1.8.2',
-        'setuptools',
-        'z3c.jbot',
+        'plone.app.contenttypes',
         'plone.app.dexterity',
+        'plone.app.querystring',
+        'plone.app.z3cform',
+        'setuptools',
     ],
     extras_require={
         'test': [
+            'plone.app.mosaic',
             'plone.app.testing',
-            # Plone KGS does not use this version, because it would break
-            # Remove if your package shall be part of coredev.
-            # plone_coredev tests as of 2016-04-01.
             'plone.testing>=5.0.0',
-            'plone.app.contenttypes',
             'plone.app.robotframework[debug]',
         ],
     },

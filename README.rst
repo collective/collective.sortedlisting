@@ -69,17 +69,17 @@ Development
 
 
 .. image:: https://coveralls.io/repos/github/collective/collective.sortedlisting/badge.svg?branch=master
-:target: https://coveralls.io/github/collective/collective.sortedlisting?branch=master
+    :target: https://coveralls.io/github/collective/collective.sortedlisting?branch=master
 
 
 Build mockup (only Plone 5.1b4 and below)
 
-$ bin/plone-compile-resources -s Plone -b plone
-$ bin/plone-compile-resources -s Plone -b plone-logged-in
+  $ bin/plone-compile-resources -s Plone -b plone
+  $ bin/plone-compile-resources -s Plone -b plone-logged-in
 
 Build resources
 
-$ bin/plone-compile-resources -s Plone -b sortablequerystring
+  $ bin/plone-compile-resources -s Plone -b sortablequerystring
 
 Contribute
 ----------
