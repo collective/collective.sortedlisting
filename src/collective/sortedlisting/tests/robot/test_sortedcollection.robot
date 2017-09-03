@@ -31,6 +31,10 @@ Library  Remote  ${PLONE_URL}/RobotRemote
 Test Setup  Open test browser
 Test Teardown  Close all browsers
 
+** Variables ***
+
+${BROWSER}   Chrome
+
 
 *** Test Cases ***************************************************************
 
