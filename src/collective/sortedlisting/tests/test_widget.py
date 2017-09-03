@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """ Tests BrowserViews of this package."""
+from collective.sortedlisting.browser.querybuilder import QueryBuilder
+from collective.sortedlisting.testing import COLLECTIVE_SORTEDLISTING_INTEGRATION_TESTING  # noqa
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.batching import Batch
 from plone.uuid.interfaces import IUUID
-from collective.sortedlisting.browser.querybuilder import QueryBuilder
-from collective.sortedlisting.testing import COLLECTIVE_SORTEDLISTING_INTEGRATION_TESTING  # noqa
 
 import unittest
 

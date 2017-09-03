@@ -20,7 +20,7 @@ before_script:
 - firefox -v
 script:
   - bin/code-analysis
-  - bin/coverage run bin/test --all
+  - bin/coverage run bin/test
 after_success:
   - bin/coveralls
 notifications:

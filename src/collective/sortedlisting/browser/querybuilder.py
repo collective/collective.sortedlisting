@@ -42,4 +42,3 @@ class QueryBuilder(BaseQueryBilder):
         if batch:
             results = Batch(results, b_size, start=b_start)
         return results
-
