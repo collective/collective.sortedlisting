@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-"""Setup tests for this package."""
+""" Tests BrowserViews of this package."""
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.batching import Batch
 from plone.uuid.interfaces import IUUID
+from collective.sortedlisting.browser.querybuilder import QueryBuilder
 from collective.sortedlisting.testing import COLLECTIVE_SORTEDLISTING_INTEGRATION_TESTING  # noqa
 
 import unittest
@@ -30,15 +32,15 @@ class TestView(unittest.TestCase):
         )
 
     def test_html_query_result_noresults(self):
-        """Test rendering of sorted html query result."""
+        """ Test rendering of sorted html query result (with no results).
+        """
         self.assertIn(
             '<strong id="search-results-number">0</strong> items matching your search terms.',  # noqa
             self.view.html_results(self.query)
         )
 
     def test_html_query_result_list(self):
-        """
-        :return:
+        """ Test rendering of sorted html query result (with results).
         """
         setRoles(self.portal, TEST_USER_ID, ['Manager', ])
         doc1 = api.content.create(self.portal, 'Document', title='A doc')
@@ -47,3 +49,14 @@ class TestView(unittest.TestCase):
             '<a href="http://nohost/plone/a-doc" class="state-private contenttype-document" data-uid="{0}">A doc</a>'.format(IUUID(doc1)), # noqa
             self.view.html_results(self.query)
         )
+
+    def test_querybuilder_batch(self):
+        """ Test querybuilder with batch
+        """
+        setRoles(self.portal, TEST_USER_ID, ['Manager', ])
+        sc = api.content.create(
+            self.portal, 'SortableCollection', title='A sortable collection')
+        qb = QueryBuilder(sc, self.layer['request'])
+        results = qb(sc.query, batch=True)
+        self.assertIsInstance(results, Batch)
+        self.assertEqual(len(results), 0)
