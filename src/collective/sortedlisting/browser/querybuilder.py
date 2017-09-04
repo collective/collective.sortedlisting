@@ -16,7 +16,6 @@ class QueryBuilder(BaseQueryBilder):
         results = self(query, sort_on=self.request.get('sort_on', None),
                        sort_order=self.request.get('sort_order', None),
                        limit=10)
-
         return getMultiAdapter(
             (results, self.request),
             name='sortable_query_results'
@@ -29,9 +28,9 @@ class QueryBuilder(BaseQueryBilder):
             query, batch=False, b_start=b_start, b_size=b_size,
             sort_on=sort_on, sort_order=sort_order, limit=limit,
             brains=True, custom_query=custom_query)
-        sorting = getattr(self.context, 'sorting', [])
+        sorting = self.request.form.get('sorting', '')
         # if sorting is None make it an empty list
-        sorting = sorting and sorting or []
+        sorting = isinstance(sorting, basestring) and sorting.split(',') or []
         # apply the custom sorting to the resultset according to
         # our sorting list
         positions = {j: i for i, j in enumerate(sorting)}

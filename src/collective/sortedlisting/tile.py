@@ -27,8 +27,7 @@ class ISortableContentListingTile(contentlisting.IContentListingTile):
 
 class SortableContentListingTile(contentlisting.ContentListingTile):
 
-    def contents(self):
-        """Search results"""
+    def get_results(self):
         builder = getMultiAdapter(
             (self.context, self.request),
             name='querybuilderresults'
@@ -41,8 +40,12 @@ class SortableContentListingTile(contentlisting.ContentListingTile):
         )
         sorting = self.data.get('sorting', '')
         positions = {j: i for i, j in enumerate(sorting)}
-        results = sorted(
+        return sorted(
             results, key=lambda item: positions.get(item.uuid(), 999))
+
+    def contents(self):
+        """Search results"""
+        results = self.get_results()
         view = self.view_template or 'listing_view'
         view = view.encode('utf-8')
         options = dict(original_context=self.context)
