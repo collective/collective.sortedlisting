@@ -42,9 +42,10 @@ with the additional sorting features.
 Examples
 --------
 
-.. raw:: html
-
-  <iframe width="640" height="360" src="https://tube.switch.ch/embed/092b37e9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+.. youtube:: 
+            :height: 315
+            :width: 560
+            :align: left
 
 Installation
 ------------
