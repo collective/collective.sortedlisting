@@ -5,7 +5,8 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix tests / static code analysis and stream demo video from Youtube
+  [tomgross]
 
 
 1.0a1 (2017-09-07)
