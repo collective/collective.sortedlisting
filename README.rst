@@ -35,14 +35,16 @@ The contenttype makes use of a behavior (SortableCollection)
 which can be used by custom contenttypes.
 
 If you have Mosaic installed the addon provides the
- *Sortable Contentlisting* tile which inherits from
+*Sortable Contentlisting* tile which inherits from
 the Contentlisting tile from plone.app.standardtiles
 with the additional sorting features.
 
 Examples
 --------
 
+.. raw:: html
 
+  <iframe width="640" height="360" src="https://tube.switch.ch/embed/092b37e9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 
 Installation
 ------------
@@ -72,22 +74,21 @@ Development
     :target: https://coveralls.io/github/collective/collective.sortedlisting?branch=master
 
 
-Build mockup (only Plone 5.1b4 and below)
+Build mockup (only Plone 5.1b4 and below) ::
 
   $ bin/plone-compile-resources -s Plone -b plone
   $ bin/plone-compile-resources -s Plone -b plone-logged-in
 
-Build resources
+Build resources ::
 
   $ bin/plone-compile-resources -s Plone -b sortablequerystring
 
 Contribute
 ----------
 
-- Issue Tracker: https://github.com/collective/collective.sortedlisting/issues
-- Source Code: https://github.com/collective/collective.listing
-- Documentation: https://docs.plone.org/foo/bar
-
+ - Issue Tracker: https://github.com/collective/collective.sortedlisting/issues
+ - Source Code: https://github.com/collective/collective.listing
+ - Documentation: https://docs.plone.org/foo/bar
 
 License
 -------
