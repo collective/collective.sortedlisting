@@ -6,12 +6,11 @@ from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.batching import Batch
 from plone.dexterity.interfaces import IDexterityContent
+from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.interface import implementer_only
 from zope.interface import provider
-
-from plone.supermodel import model
 
 
 # we need to inherit from model.Schema here directly
