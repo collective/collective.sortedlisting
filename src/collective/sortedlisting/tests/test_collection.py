@@ -27,6 +27,9 @@ class PloneCollectionTest(PloneAppCollectionClassTest):
         self.collection = api.content.create(
             self.portal, 'SortableCollection', id='collection')
 
+    def test_bbb_selectedViewFields(self):
+        pass
+
 
 query = [{
     'i': 'Title',

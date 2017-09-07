@@ -11,8 +11,8 @@ from zope.component import adapter
 from zope.interface import implementer_only
 from zope.interface import provider
 
-
 from plone.supermodel import model
+
 
 # we need to inherit from model.Schema here directly
 # otherwise this gives some weird overlapping with the
@@ -63,14 +63,13 @@ class ISortableCollectionBehavior(model.Schema):
 
     customViewFields = schema.List(
         title=_(u'Table Columns'),
-        description=_(u"Select which fields to display when "
+        description=_(u'Select which fields to display when '
                       u"'Tabular view' is selected in the display menu."),
         default=['Title', 'Creator', 'Type', 'ModificationDate'],
         value_type=schema.Choice(
             vocabulary='plone.app.contenttypes.metadatafields'),
         required=False,
     )
-
 
     # we need an additional field to store the sorting
     # as UIDs of the found objects (brains)
