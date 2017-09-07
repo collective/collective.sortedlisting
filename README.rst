@@ -42,10 +42,10 @@ with the additional sorting features.
 Examples
 --------
 
-.. youtube:: 
-            :height: 315
-            :width: 560
-            :align: left
+.. image:: https://img.youtube.com/vi/VNLGuDHVJ_o/0.jpg
+	:target: https://www.youtube.com/watch?v=VNLGuDHVJ_o
+	:alt: Sortedlisting demo video
+
 
 Installation
 ------------
