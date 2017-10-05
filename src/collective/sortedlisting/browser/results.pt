@@ -24,7 +24,7 @@
             </strong>
         </p>
 
-        <ul class="searchResults" tal:condition="limited_results">
+        <ul class="searchResults sortedListing-results" tal:condition="limited_results">
             <li tal:repeat="item limited_results" tal:attributes="data-uid item/UID">
                 <tal:entry tal:define="author python:pas_member.info(item.Creator());
                 	                   item_state python:'state-'+item.review_state();

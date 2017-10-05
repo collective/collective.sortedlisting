@@ -1,0 +1,18 @@
+@queryField: ~"div.sortableCollection-query";
+@sortingField: ~"div.sortableCollection-sorting";
+@searchResults: ~"ul.sortedListing-results";
+
+/* Hide preview-description and sorting*/
+@{sortingField}, @{queryField} div.querystring-preview-description {
+    display: none;
+}
+
+/* Set cursor for drag & drop. */
+@{searchResults} li {
+  cursor: move;
+}
+
+@{searchResults} li.item-dragging { /* Highlight the selected item. */
+    border-color: @plone-link-color;
+    border-style: dashed;
+  }
