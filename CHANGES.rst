@@ -5,7 +5,9 @@ Changelog
 1.0a3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Don't limit results for sorting
+- Enhance drag & drop layout
+  [adrianschulz]
 
 
 1.0a2 (2017-09-07)
