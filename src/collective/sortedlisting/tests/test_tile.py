@@ -33,4 +33,14 @@ class SortedCollectionFunctionalTest(unittest.TestCase):
         expected = '<p class="discreet">There are currently no items in this folder.</p>'  # noqa
         self.assertIn(expected, browser.contents)
 
+    def test_added_classes(self):
+        browser = Browser(self.layer['app'])
+        auth = 'Basic {0}:{1}'.format(TEST_USER_NAME, TEST_USER_PASSWORD)
+        browser.addHeader('Authorization', auth)
+        browser.open(
+            self.portal.absolute_url() +
+            '/@@collective.sortablequerystring.contentlisting')
+        expected = '<p class="discreet">There are currently no items in this folder.</p>'  # noqa
+        self.assertIn(expected, browser.contents)
+
 # EOF

@@ -50,6 +50,12 @@ class TestView(unittest.TestCase):
             self.view.html_results(self.query)
         )
 
+        # Test if a necessary css-class is added
+        self.assertIn(
+            '<ul class="searchResults sortedListing-results">',
+            self.view.html_results(self.query)
+        )
+
     def test_querybuilder_batch(self):
         """ Test querybuilder with batch
         """
@@ -60,3 +66,20 @@ class TestView(unittest.TestCase):
         results = qb(sc.query, batch=True)
         self.assertIsInstance(results, Batch)
         self.assertEqual(len(results), 0)
+
+    def test_querybulider_default_batch(self):
+        """ Test if it the results will be batched if it's not implicity given.
+        """
+
+        setRoles(self.portal, TEST_USER_ID, ['Manager', ])
+
+        # default batch size is 10 for querystring
+        for counter in range(11):
+            obj = api.content.create(self.portal, 'Document',
+                                     title='A doc - {0}'.format(counter))
+            obj.reindexObject()
+
+        self.assertIn(
+            '<a href="http://nohost/plone/a-doc-10" class="link-location">',
+            self.view.html_results(self.query)
+        )

@@ -7,6 +7,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.batching import Batch
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
+from plone.z3cform.textlines import TextLinesFieldWidget
 from zope import schema
 from zope.component import adapter
 from zope.interface import implementer_only
@@ -30,7 +31,9 @@ class ISortableCollectionBehavior(model.Schema):
         missing_value=''
     )
     # override QueryString widget with our sortable version
-    form.widget('query', SortableQueryStringFieldWidget)
+    form.widget('query',
+                SortableQueryStringFieldWidget,
+                wrapper_css_class='sortableCollection-query')
 
     sort_on = schema.TextLine(
         title=_(u'label_sort_on', default=u'Sort on'),
@@ -80,6 +83,10 @@ class ISortableCollectionBehavior(model.Schema):
         value_type=schema.TextLine(),
         required=False,
     )
+    # We have to set the widget to update the widget-settings
+    form.widget('sorting',
+                TextLinesFieldWidget,
+                wrapper_css_class='sortableCollection-sorting')
 
 
 @implementer_only(ISortableCollectionBehavior)

@@ -13,8 +13,12 @@ __author__ = 'Tom Gross <itconsense@gmail.com>'
 
 class ISortableContentListingTile(contentlisting.IContentListingTile):
 
-    form.widget('query', SortableQueryStringFieldWidget)
+    form.widget('query',
+                SortableQueryStringFieldWidget,
+                wrapper_css_class='sortableCollection-query')
 
+    form.widget('sorting',
+                wrapper_css_class='sortableCollection-sorting')
     sorting = schema.List(
         title=_(u'Sorting'),
         description=_(u'Widget specific sorting of the search results'),
