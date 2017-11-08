@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a3 (unreleased)
+1.0a3 (2017-11-08)
 ------------------
 
 - Don't limit results for sorting
