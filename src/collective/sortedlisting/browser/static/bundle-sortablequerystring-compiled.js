@@ -89,6 +89,12 @@ define('sortablequerystring',[
       if (self.$sortOrder.prop('checked')) {
         query.push('sort_order=reverse');
       }
+
+      var sorting = $("textarea[name$='.sorting']" ).val();
+      if (sorting !== undefined) {
+        query.push('sorting=' + sorting.split('\n').join(','));
+      }
+
       self._previewXhr = $.get(self.options.previewURL + '?' + query.join('&'))
           .done(function(data, stat) {
             $('<div/>')
@@ -99,7 +105,7 @@ define('sortablequerystring',[
             var uidList = $("#search-results li").map(function() {
               return $(this).data("uid");
             }).get();
-            $( "textarea[name$='ISortableCollection.sorting']" ).val( uidList.join("\r\n"))
+            $( "textarea[name$='.sorting']" ).val( uidList.join("\r\n"))
 
 
             var dd = new Sortable($('#search-results'), {

@@ -14,7 +14,8 @@ class QueryBuilder(BaseQueryBilder):
            used in the live update results"""
         options = dict(original_context=self.context)
         results = self(query, sort_on=self.request.get('sort_on', None),
-                       sort_order=self.request.get('sort_order', None),)
+                       sort_order=self.request.get('sort_order', None),
+                       limit=50)
         return getMultiAdapter(
             (results, self.request),
             name='sortable_query_results'

@@ -5,7 +5,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Build bundle
+- Set query limit to 50
+  [tomgross]
 
 
 1.0a3 (2017-11-08)
