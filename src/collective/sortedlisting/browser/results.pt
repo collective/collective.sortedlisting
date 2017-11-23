@@ -4,7 +4,8 @@
     there are no html and body tags
 </tal:comment>
 <div tal:define="results context;
-                 limited_results python:context[:25];
+                 limit nocall:options/limit;
+                 limited_results python:context[:limit];
                  original_context nocall:options/original_context|nocall:context;
                  toLocalizedTime nocall:original_context/@@plone/toLocalizedTime;
                  pas_member original_context/@@pas_member;

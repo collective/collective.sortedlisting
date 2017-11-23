@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.querystring.querybuilder import QueryBuilder as BaseQueryBilder
+from plone.app.querystring.querybuilder import ContentListingView
 from plone.batching import Batch
 from zope.component import getMultiAdapter
+
+DISPLAY_LIMIT = 50
 
 
 class QueryBuilder(BaseQueryBilder):
@@ -15,7 +18,7 @@ class QueryBuilder(BaseQueryBilder):
         options = dict(original_context=self.context)
         results = self(query, sort_on=self.request.get('sort_on', None),
                        sort_order=self.request.get('sort_order', None),
-                       limit=50)
+                       limit=DISPLAY_LIMIT)
         return getMultiAdapter(
             (results, self.request),
             name='sortable_query_results'
@@ -41,3 +44,9 @@ class QueryBuilder(BaseQueryBilder):
         if batch:
             results = Batch(results, b_size, start=b_start)
         return results
+
+
+class SortableContentListingView(ContentListingView):
+
+    def __call__(self, **kw):
+        return super(SortableContentListingView, self).__call__(limit=DISPLAY_LIMIT, **kw)

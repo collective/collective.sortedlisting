@@ -107,8 +107,7 @@ define([
             }).get();
             $( "textarea[name$='.sorting']" ).val( uidList.join("\r\n"))
 
-
-            var dd = new Sortable($('#search-results'), {
+            var dd = new Sortable($('div#search-results ul.sortedListing-results'), {
                selector: 'li',
                drop: 'updateSorting'
             });
