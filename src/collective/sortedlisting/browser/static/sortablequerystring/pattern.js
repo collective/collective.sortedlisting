@@ -90,7 +90,7 @@ define([
         query.push('sort_order=reverse');
       }
 
-      var sorting = $("textarea[name$='.sorting']" ).val();
+      var sorting = $("textarea[name$='.sorting']").last().val();
       if (sorting !== undefined) {
         query.push('sorting=' + sorting.split('\n').join(','));
       }
@@ -105,7 +105,7 @@ define([
             var uidList = $("#search-results li").map(function() {
               return $(this).data("uid");
             }).get();
-            $( "textarea[name$='.sorting']" ).val( uidList.join("\r\n"))
+            $( "textarea[name$='.sorting']" ).last().val( uidList.join("\r\n"))
 
             var dd = new Sortable($('div#search-results ul.sortedListing-results'), {
                selector: 'li',
