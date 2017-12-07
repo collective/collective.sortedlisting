@@ -5,6 +5,7 @@ from plone.app.querystring.querybuilder import ContentListingView
 from plone.batching import Batch
 from zope.component import getMultiAdapter
 
+
 DISPLAY_LIMIT = 50
 
 
@@ -49,4 +50,5 @@ class QueryBuilder(BaseQueryBilder):
 class SortableContentListingView(ContentListingView):
 
     def __call__(self, **kw):
-        return super(SortableContentListingView, self).__call__(limit=DISPLAY_LIMIT, **kw)
+        obj = super(SortableContentListingView, self)
+        return obj.__call__(limit=DISPLAY_LIMIT, **kw)

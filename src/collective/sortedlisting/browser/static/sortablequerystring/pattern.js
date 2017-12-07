@@ -100,7 +100,7 @@ define([
 
       var sorting = modal.find("textarea[name$='.sorting']").first().val();
 
-      if (sorting !== undefined) {
+      if (sorting !== undefined && self.$sortOn.val() === '') {
         query.push('sorting=' + sorting.split('\n').join(','));
       }
 
