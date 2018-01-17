@@ -4,7 +4,8 @@
     there are no html and body tags
 </tal:comment>
 <div tal:define="results context;
-                 limited_results python:context[:25];
+                 limit nocall:options/limit;
+                 limited_results python:context[:limit];
                  original_context nocall:options/original_context|nocall:context;
                  toLocalizedTime nocall:original_context/@@plone/toLocalizedTime;
                  pas_member original_context/@@pas_member;
@@ -95,11 +96,13 @@
         </ul>
         <script type="text/javascript">
               var updateSorting = function(el, shift){
+                  /* Get active modal window */
+                  var modal = $('div.plone-modal-wrapper:visible').first();
                   var uid = $(el).attr('data-uid');
-                  var uidList = $("#search-results li").map(function() {
+                  var uidList = modal.find("div#search-results li").map(function() {
                         return $(this).data("uid");
                   }).get();
-                 $( "textarea[name$='sorting']" ).val( uidList.join("\r\n"))
+                  modal.find("textarea[name$='sorting']").first().val( uidList.join("\r\n"))
               };
 
         </script>

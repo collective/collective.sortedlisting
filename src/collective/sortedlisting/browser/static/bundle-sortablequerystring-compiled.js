@@ -90,8 +90,17 @@ define('sortablequerystring',[
         query.push('sort_order=reverse');
       }
 
-      var sorting = $("textarea[name$='.sorting']" ).val();
-      if (sorting !== undefined) {
+      /* Get active modal window. Due to the properties-modal (which is always in the DOM but hidden if not active) we
+       * have 2 modal windows in the DOM when a tile-modal is active. This leads to inconsistencies when the
+       * SortableCollectionBehavior & the Sortable-Content-listing-Tile are active. */
+      var modal = $('div.plone-modal-wrapper:visible').first();
+      if(modal.length == 0) {
+        modal = $('div.plone-modal-wrapper.mosaic-overlay');
+      }
+
+      var sorting = modal.find("textarea[name$='.sorting']").first().val();
+
+      if (sorting !== undefined && self.$sortOn.val() === '') {
         query.push('sorting=' + sorting.split('\n').join(','));
       }
 
@@ -102,17 +111,16 @@ define('sortablequerystring',[
               .html(data)
               .appendTo(self.$previewPane);
 
-            var uidList = $("#search-results li").map(function() {
+            var uidList = modal.find("div#search-results li").map(function() {
               return $(this).data("uid");
             }).get();
-            $( "textarea[name$='.sorting']" ).val( uidList.join("\r\n"))
 
+            modal.find("textarea[name$='.sorting']").first().val( uidList.join("\r\n"));
 
-            var dd = new Sortable($('#search-results'), {
+            var dd = new Sortable(modal.find('div#search-results ul.sortedListing-results').first(), {
                selector: 'li',
                drop: 'updateSorting'
             });
-
           });
     },
   });
@@ -126,5 +134,5 @@ require([
   'use strict';
 });
 
-define("/home/vagrant/collective.sortedlisting/src/collective/sortedlisting/browser/static/bundle.js", function(){});
+define("/home/vagrant/www.fhnw.ch/src/collective.sortedlisting/src/collective/sortedlisting/browser/static/bundle.js", function(){});
 
