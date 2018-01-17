@@ -21,7 +21,7 @@
 
     <browser:page
     name="sortable_query_results"
-    class="plone.app.querystring.querybuilder.ContentListingView"
+    class=".querybuilder.SortableContentListingView"
     permission="zope2.View"
     for="*"
     template="results.pt"
