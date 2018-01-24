@@ -1,3 +1,145 @@
+/* i18n integration. This is forked from jarn.jsi18n
+ *
+ * This is a singleton.
+ * Configuration is done on the body tag data-i18ncatalogurl attribute
+ *     <body data-i18ncatalogurl="/plonejsi18n">
+ *
+ *  Or, it'll default to "/plonejsi18n"
+ */
+define('mockup-i18n',[
+  'jquery'
+], function($) {
+  'use strict';
+
+  var I18N = function() {
+    var self = this;
+    self.baseUrl = $('body').attr('data-i18ncatalogurl');
+
+    if (!self.baseUrl) {
+      self.baseUrl = '/plonejsi18n';
+    }
+    self.currentLanguage = $('html').attr('lang') || 'en-us';
+    self.storage = null;
+    self.catalogs = {};
+    self.ttl = 24 * 3600 * 1000;
+
+    // Internet Explorer 8 does not know Date.now() which is used in e.g. loadCatalog, so we "define" it
+    if (!Date.now) {
+      Date.now = function() {
+        return new Date().valueOf();
+      };
+    }
+
+    try {
+      if ('localStorage' in window && window.localStorage !== null && 'JSON' in window && window.JSON !== null) {
+        self.storage = window.localStorage;
+      }
+    } catch (e) {}
+
+    self.configure = function(config) {
+      for (var key in config){
+        self[key] = config[key];
+      }
+    };
+
+    self._setCatalog = function (domain, language, catalog) {
+      if (domain in self.catalogs) {
+        self.catalogs[domain][language] = catalog;
+      } else {
+        self.catalogs[domain] = {};
+        self.catalogs[domain][language] = catalog;
+      }
+    };
+
+    self._storeCatalog = function (domain, language, catalog) {
+      var key = domain + '-' + language;
+      if (self.storage !== null && catalog !== null) {
+        self.storage.setItem(key, JSON.stringify(catalog));
+        self.storage.setItem(key + '-updated', Date.now());
+      }
+    };
+
+    self.getUrl = function(domain, language) {
+      return self.baseUrl + '?domain=' + domain + '&language=' + language;
+    };
+
+    self.loadCatalog = function (domain, language) {
+      if (language === undefined) {
+        language = self.currentLanguage;
+      }
+      if (self.storage !== null) {
+        var key = domain + '-' + language;
+        if (key in self.storage) {
+          if ((Date.now() - parseInt(self.storage.getItem(key + '-updated'), 10)) < self.ttl) {
+            var catalog = JSON.parse(self.storage.getItem(key));
+            self._setCatalog(domain, language, catalog);
+            return;
+          }
+        }
+      }
+      $.getJSON(self.getUrl(domain, language), function (catalog) {
+        if (catalog === null) {
+          return;
+        }
+        self._setCatalog(domain, language, catalog);
+        self._storeCatalog(domain, language, catalog);
+      });
+    };
+
+    self.MessageFactory = function (domain, language) {
+      language = language || self.currentLanguage;
+      return function translate (msgid, keywords) {
+        var msgstr;
+        if ((domain in self.catalogs) && (language in self.catalogs[domain]) && (msgid in self.catalogs[domain][language])) {
+          msgstr = self.catalogs[domain][language][msgid];
+        } else {
+          msgstr = msgid;
+        }
+        if (keywords) {
+          var regexp, keyword;
+          for (keyword in keywords) {
+            if (keywords.hasOwnProperty(keyword)) {
+              regexp = new RegExp('\\$\\{' + keyword + '\\}', 'g');
+              msgstr = msgstr.replace(regexp, keywords[keyword]);
+            }
+          }
+        }
+        return msgstr;
+      };
+    };
+  };
+
+  return I18N;
+});
+
+/* i18n integration.
+ *
+ * This is a singleton.
+ * Configuration is done on the body tag data-i18ncatalogurl attribute
+ *     <body data-i18ncatalogurl="/plonejsi18n">
+ *
+ *  Or, it'll default to "/plonejsi18n"
+ */
+
+define('translate',[
+  'mockup-i18n'
+], function(I18N) {
+  'use strict';
+
+  // we're creating a singleton here so we can potentially
+  // delay the initialization of the translate catalog
+  // until after the dom is available
+  var _t = null;
+  return function(msgid, keywords) {
+    if (_t === null) {
+      var i18n = new I18N();
+      i18n.loadCatalog('widgets');
+      _t = i18n.MessageFactory('widgets');
+    }
+    return _t(msgid, keywords);
+  };
+});
+
 /* Sortable Querystring pattern.
  *
  * Options:
@@ -41,8 +183,9 @@
 define('sortablequerystring',[
   'jquery',
   'mockup-patterns-querystring',
-  'mockup-patterns-sortable'
-], function($, QueryString, Sortable) {
+  'mockup-patterns-sortable',
+  'translate'
+], function($, QueryString, Sortable, _t) {
   'use strict';
 
   var SortableQueryString = QueryString.extend({
@@ -123,6 +266,76 @@ define('sortablequerystring',[
             });
           });
     },
+    createSort: function() {
+      var self = this;
+
+      var modal = $('div.plone-modal-wrapper:visible').first();
+      if(modal.length == 0) {
+        modal = $('div.plone-modal-wrapper.mosaic-overlay');
+      }
+
+      // elements that may exist already on the page
+      // XXX do this in a way so it'll work with other forms will work
+      // as long as they provide sort_on and sort_reversed fields in z3c form
+      var existingSortOn = modal.find('[id$="-sort_on"]').filter('[id^="formfield-"]');
+      var existingSortOrder = modal.find('[id$="-sort_reversed"]').filter('[id^="formfield-"]');
+
+      $('<span/>')
+        .addClass(self.options.classSortLabelName)
+        .html(_t('Sort on'))
+        .appendTo(self.$sortWrapper);
+      self.$sortOn = $('<select/>')
+        .attr('name', 'sort_on')
+        .appendTo(self.$sortWrapper)
+        .change(function() {
+          self.refreshPreviewEvent.call(self);
+          $('[id$="sort_on"]', existingSortOn).val($(this).val());
+        });
+
+      self.$sortOn.append($('<option value="">No sorting</option>')); // default no sorting
+      for (var key in self.options['sortable_indexes']) { // jshint ignore:line
+        self.$sortOn.append(
+          $('<option/>')
+            .attr('value', key)
+            .html(self.options.indexes[key].title)
+        );
+      }
+      self.$sortOn.patternSelect2({width: '150px'});
+
+      self.$sortOrder = $('<input type="checkbox" />')
+        .attr('name', 'sort_reversed:boolean')
+        .change(function() {
+          self.refreshPreviewEvent.call(self);
+          if ($(this).prop('checked')) {
+            $('.option input[type="checkbox"]', existingSortOrder).prop('checked', true);
+          } else {
+            $('.option input[type="checkbox"]', existingSortOrder).prop('checked', false);
+          }
+        });
+
+      $('<span/>')
+        .addClass(self.options.classSortReverseName)
+        .appendTo(self.$sortWrapper)
+        .append(self.$sortOrder)
+        .append(
+          $('<span/>')
+            .html(_t('Reversed Order'))
+            .addClass(self.options.classSortReverseLabelName)
+        );
+
+      // if the form already contains the sort fields, hide them! Their values
+      // will be synced back and forth between the querystring's form elements
+      if (existingSortOn.length >= 1 && existingSortOrder.length >= 1) {
+        var reversed = $('.option input[type="checkbox"]', existingSortOrder).prop('checked');
+        var sortOn = $('[id$="-sort_on"]', existingSortOn).val();
+        if (reversed) {
+          self.$sortOrder.prop('checked', true);
+        }
+        self.$sortOn.select2('val', sortOn);
+        $(existingSortOn).hide();
+        $(existingSortOrder).hide();
+      }
+    },
   });
 
   return SortableQueryString;
@@ -134,5 +347,5 @@ require([
   'use strict';
 });
 
-define("/home/vagrant/www.fhnw.ch/src/collective.sortedlisting/src/collective/sortedlisting/browser/static/bundle.js", function(){});
+define("/home/vagrant/collective.sortedlisting/src/collective/sortedlisting/browser/static/bundle.js", function(){});
 
