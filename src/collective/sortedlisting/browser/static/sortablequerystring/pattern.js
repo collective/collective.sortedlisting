@@ -41,8 +41,9 @@
 define([
   'jquery',
   'mockup-patterns-querystring',
-  'mockup-patterns-sortable'
-], function($, QueryString, Sortable) {
+  'mockup-patterns-sortable',
+  'translate'
+], function($, QueryString, Sortable, _t) {
   'use strict';
 
   var SortableQueryString = QueryString.extend({
@@ -122,6 +123,76 @@ define([
                drop: 'updateSorting'
             });
           });
+    },
+    createSort: function() {
+      var self = this;
+
+      var modal = $('div.plone-modal-wrapper:visible').first();
+      if(modal.length == 0) {
+        modal = $('div.plone-modal-wrapper.mosaic-overlay');
+      }
+
+      // elements that may exist already on the page
+      // XXX do this in a way so it'll work with other forms will work
+      // as long as they provide sort_on and sort_reversed fields in z3c form
+      var existingSortOn = modal.find('[id$="-sort_on"]').filter('[id^="formfield-"]');
+      var existingSortOrder = modal.find('[id$="-sort_reversed"]').filter('[id^="formfield-"]');
+
+      $('<span/>')
+        .addClass(self.options.classSortLabelName)
+        .html(_t('Sort on'))
+        .appendTo(self.$sortWrapper);
+      self.$sortOn = $('<select/>')
+        .attr('name', 'sort_on')
+        .appendTo(self.$sortWrapper)
+        .change(function() {
+          self.refreshPreviewEvent.call(self);
+          $('[id$="sort_on"]', existingSortOn).val($(this).val());
+        });
+
+      self.$sortOn.append($('<option value="">No sorting</option>')); // default no sorting
+      for (var key in self.options['sortable_indexes']) { // jshint ignore:line
+        self.$sortOn.append(
+          $('<option/>')
+            .attr('value', key)
+            .html(self.options.indexes[key].title)
+        );
+      }
+      self.$sortOn.patternSelect2({width: '150px'});
+
+      self.$sortOrder = $('<input type="checkbox" />')
+        .attr('name', 'sort_reversed:boolean')
+        .change(function() {
+          self.refreshPreviewEvent.call(self);
+          if ($(this).prop('checked')) {
+            $('.option input[type="checkbox"]', existingSortOrder).prop('checked', true);
+          } else {
+            $('.option input[type="checkbox"]', existingSortOrder).prop('checked', false);
+          }
+        });
+
+      $('<span/>')
+        .addClass(self.options.classSortReverseName)
+        .appendTo(self.$sortWrapper)
+        .append(self.$sortOrder)
+        .append(
+          $('<span/>')
+            .html(_t('Reversed Order'))
+            .addClass(self.options.classSortReverseLabelName)
+        );
+
+      // if the form already contains the sort fields, hide them! Their values
+      // will be synced back and forth between the querystring's form elements
+      if (existingSortOn.length >= 1 && existingSortOrder.length >= 1) {
+        var reversed = $('.option input[type="checkbox"]', existingSortOrder).prop('checked');
+        var sortOn = $('[id$="-sort_on"]', existingSortOn).val();
+        if (reversed) {
+          self.$sortOrder.prop('checked', true);
+        }
+        self.$sortOn.select2('val', sortOn);
+        $(existingSortOn).hide();
+        $(existingSortOrder).hide();
+      }
     },
   });
 
