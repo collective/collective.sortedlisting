@@ -98,11 +98,15 @@
               var updateSorting = function(el, shift){
                   /* Get active modal window */
                   var modal = $('div.plone-modal-wrapper:visible').first();
+                  var sortOnSelect = modal.find(".querystring-sort-wrapper").find("select")
                   var uid = $(el).attr('data-uid');
                   var uidList = modal.find("div#search-results li").map(function() {
                         return $(this).data("uid");
                   }).get();
                   modal.find("textarea[name$='sorting']").first().val( uidList.join("\r\n"))
+
+                  sortOnSelect.first().val(''); // Select the option with a value of ''
+                  sortOnSelect.first().trigger('change'); // Notify any JS components that the value changed
               };
 
         </script>
