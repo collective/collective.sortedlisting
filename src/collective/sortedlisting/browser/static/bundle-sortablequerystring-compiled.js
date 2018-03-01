@@ -240,6 +240,11 @@ define('sortablequerystring',[
       if(modal.length == 0) {
         modal = $('div.plone-modal-wrapper.mosaic-overlay');
       }
+      /*
+      if(modal.length == 0){
+        modal = $('div#content-core');
+      }
+      */
 
       var sorting = modal.find("textarea[name$='.sorting']").first().val();
 
@@ -273,6 +278,11 @@ define('sortablequerystring',[
       if(modal.length == 0) {
         modal = $('div.plone-modal-wrapper.mosaic-overlay');
       }
+      /*
+      if(modal.length == 0){
+        modal = $('div#content-core');
+      }
+      */
 
       // elements that may exist already on the page
       // XXX do this in a way so it'll work with other forms will work
