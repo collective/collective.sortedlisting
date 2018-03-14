@@ -10,6 +10,7 @@ from zope.component import queryUtility
 from zope.interface import alsoProvides
 from zope.schema import getFields
 
+
 __author__ = 'Tom Gross <itconsense@gmail.com>'
 
 
@@ -66,7 +67,8 @@ class SortableContentListingTile(contentlisting.ContentListingTile):
         self.sort_on = self.data.get('sort_on')
 
         if self.query is None:
-            fields = getFields(queryUtility(ITileType, name=self.__name__).schema)
+            fields = getFields(queryUtility(ITileType,
+                                            name=self.__name__).schema)
             self.query = getMultiAdapter((
                 self.context,
                 self.request,
