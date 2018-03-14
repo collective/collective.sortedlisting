@@ -1,5 +1,5 @@
 language: python
-sudo: false
+sudo: required  # workaround. See https://stackoverflow.com/questions/48236777/chromedriver-crashes-on-travis-ci
 addons:
   chrome: stable
 cache:
