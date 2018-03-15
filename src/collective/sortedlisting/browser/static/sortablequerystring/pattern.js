@@ -99,6 +99,7 @@ define([
         modal = $('div.plone-modal-wrapper.mosaic-overlay');
       }
       /*
+      Not in use to reduce the risk of an error in the next release.
       if(modal.length == 0){
         modal = $('div#content-core');
       }
@@ -137,6 +138,7 @@ define([
         modal = $('div.plone-modal-wrapper.mosaic-overlay');
       }
       /*
+      Not in use to reduce the risk of an error in the next release.
       if(modal.length == 0){
         modal = $('div#content-core');
       }
@@ -190,9 +192,7 @@ define([
             .html(_t('Reversed Order'))
             .addClass(self.options.classSortReverseLabelName)
         );
-
-      // if the form already contains the sort fields, hide them! Their values
-      // will be synced back and forth between the querystring's form elements
+      
       if (existingSortOn.length >= 1 && existingSortOrder.length >= 1) {
         var reversed = $('.option input[type="checkbox"]', existingSortOrder).prop('checked');
         var sortOn = $('[id$="-sort_on"]', existingSortOn).val();

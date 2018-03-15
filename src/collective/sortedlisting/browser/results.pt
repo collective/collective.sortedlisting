@@ -99,6 +99,7 @@
                   /* Get active modal window */
                   var modal = $('div.plone-modal-wrapper:visible').first();
                   /*
+                  Not in use to reduce the risk of an error in the next release.
                   if(modal.length == 0) {
                     modal = $('div.plone-modal-wrapper.mosaic-overlay');
                   }
@@ -113,7 +114,9 @@
                   }).get();
                   modal.find("textarea[name$='sorting']").first().val( uidList.join("\r\n"))
 
-                  sortOnSelect.first().val(''); // Select the option with a value of ''
+                  /* If a sorting-option is selected and drag & drop is executed
+                     the sort_on value will be set to No sorting automatically. */
+                  sortOnSelect.first().val('');
                   sortOnSelect.first().trigger('change'); // Notify any JS components that the value changed
               };
 
