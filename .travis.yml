@@ -1,7 +1,5 @@
 language: python
-sudo: required  # workaround. See https://stackoverflow.com/questions/48236777/chromedriver-crashes-on-travis-ci
-addons:
-  chrome: stable
+sudo: false
 cache:
   directories:
   - eggs
@@ -10,19 +8,10 @@ python:
   - 2.7.13
 matrix:
   fast_finish: true
-before_install:
-  - CDVERSION=`curl http://chromedriver.storage.googleapis.com/LATEST_RELEASE`
-  - wget http://chromedriver.storage.googleapis.com/$CDVERSION/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip
-  - chmod u+x chromedriver
-  - mv chromedriver ~/bin/
 install:
   - pip install -r requirements.txt
   - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True annotate
   - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True
-before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
 script:
   - bin/code-analysis
   - bin/coverage run bin/test --all
