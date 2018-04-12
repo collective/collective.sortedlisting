@@ -43,7 +43,9 @@ class SortableContentListingTile(contentlisting.ContentListingTile):
             results = builder(query=self.query)
             sorting = self.data.get('sorting', [])
             positions = {j: i for i, j in enumerate(sorting)}
-            return sorted(results, key=lambda item: positions.get(item.uuid(), 999))[:self.limit]
+            return sorted(results,
+                          key=lambda item: positions.get(item.uuid(),
+                                                         999))[:self.limit]
         else:
             return builder(
                 query=self.query,
