@@ -39,19 +39,20 @@ class SortableContentListingTile(contentlisting.ContentListingTile):
             (self.context, self.request),
             name='querybuilderresults'
         )
-        results = builder(
-            query=self.query,
-            sort_on=self.sort_on or 'getObjPositionInParent',
-            sort_order=self.sort_order,
-            limit=self.limit
-        )
-        if self.sort_on is not None:
-            return results
-
-        sorting = self.data.get('sorting', '')
-        positions = {j: i for i, j in enumerate(sorting)}
-        return sorted(
-            results, key=lambda item: positions.get(item.uuid(), 999))
+        if self.sort_on is None and self.data.get('sorting', ''):
+            results = builder(query=self.query)
+            sorting = self.data.get('sorting', [])
+            positions = {j: i for i, j in enumerate(sorting)}
+            return sorted(results,
+                          key=lambda item: positions.get(item.uuid(),
+                                                         999))[:self.limit]
+        else:
+            return builder(
+                query=self.query,
+                sort_on=self.sort_on or 'getObjPositionInParent',
+                sort_order=self.sort_order,
+                limit=self.limit
+            )
 
     def contents(self):
         """Search results"""
