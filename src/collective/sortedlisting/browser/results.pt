@@ -98,15 +98,14 @@
               var updateSorting = function(el, shift){
                   /* Get active modal window */
                   var modal = $('div.plone-modal-wrapper:visible').first();
-                  /*
-                  Not in use to reduce the risk of an error in the next release.
+
                   if(modal.length == 0) {
                     modal = $('div.plone-modal-wrapper.mosaic-overlay');
                   }
                   if(modal.length == 0){
                     modal = $('div#content-core');
                   }
-                  */
+
                   var sortOnSelect = modal.find(".querystring-sort-wrapper").find("select")
                   var uid = $(el).attr('data-uid');
                   var uidList = modal.find("div#search-results li").map(function() {

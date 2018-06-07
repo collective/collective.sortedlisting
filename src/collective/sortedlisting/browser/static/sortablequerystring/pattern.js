@@ -98,12 +98,9 @@ define([
       if(modal.length == 0) {
         modal = $('div.plone-modal-wrapper.mosaic-overlay');
       }
-      /*
-      Not in use to reduce the risk of an error in the next release.
       if(modal.length == 0){
         modal = $('div#content-core');
       }
-      */
 
       var sorting = modal.find("textarea[name$='.sorting']").first().val();
 
@@ -137,12 +134,9 @@ define([
       if(modal.length == 0) {
         modal = $('div.plone-modal-wrapper.mosaic-overlay');
       }
-      /*
-      Not in use to reduce the risk of an error in the next release.
       if(modal.length == 0){
         modal = $('div#content-core');
       }
-      */
 
       // elements that may exist already on the page
       // XXX do this in a way so it'll work with other forms will work
@@ -192,7 +186,7 @@ define([
             .html(_t('Reversed Order'))
             .addClass(self.options.classSortReverseLabelName)
         );
-      
+
       if (existingSortOn.length >= 1 && existingSortOrder.length >= 1) {
         var reversed = $('.option input[type="checkbox"]', existingSortOrder).prop('checked');
         var sortOn = $('[id$="-sort_on"]', existingSortOn).val();
