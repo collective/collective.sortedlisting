@@ -42,7 +42,6 @@
     factory=".behavior.SortableCollectionBehavior"
     for="plone.dexterity.interfaces.IDexterityContent"
     marker=".interfaces.ISortableCollection"
-    name_only="True"
     />
 
   <configure zcml:condition="installed plone.app.mosaic">
