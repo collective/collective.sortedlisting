@@ -89,7 +89,7 @@ class ISortableCollectionBehavior(model.Schema):
                 wrapper_css_class='sortableCollection-sorting')
 
 
-@implement(ISortableCollectionBehavior)
+@implementer(ISortableCollectionBehavior)
 @adapter(IDexterityContent)
 class SortableCollectionBehavior(Collection):
     """ """
