@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.querystring.querybuilder import QueryBuilder as BaseQueryBilder
+from plone.app.querystring.querybuilder import ContentListingView
 from plone.batching import Batch
 from zope.component import getMultiAdapter
+
+
+DISPLAY_LIMIT = 50
 
 
 class QueryBuilder(BaseQueryBilder):
@@ -15,7 +19,7 @@ class QueryBuilder(BaseQueryBilder):
         options = dict(original_context=self.context)
         results = self(query, sort_on=self.request.get('sort_on', None),
                        sort_order=self.request.get('sort_order', None),
-                       limit=50)
+                       limit=DISPLAY_LIMIT)
         return getMultiAdapter(
             (results, self.request),
             name='sortable_query_results'
@@ -30,7 +34,7 @@ class QueryBuilder(BaseQueryBilder):
             brains=True, custom_query=custom_query)
         sorting = self.request.form.get('sorting', '')
         # if sorting is None make it an empty list
-        sorting = isinstance(sorting, basestring) and sorting.split(',') or []
+        sorting = isinstance(sorting, str) and sorting.split(',') or []
         # apply the custom sorting to the resultset according to
         # our sorting list
         positions = {j: i for i, j in enumerate(sorting)}
@@ -41,3 +45,10 @@ class QueryBuilder(BaseQueryBilder):
         if batch:
             results = Batch(results, b_size, start=b_start)
         return results
+
+
+class SortableContentListingView(ContentListingView):
+
+    def __call__(self, **kw):
+        obj = super(SortableContentListingView, self)
+        return obj.__call__(limit=DISPLAY_LIMIT, **kw)

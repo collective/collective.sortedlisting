@@ -3,9 +3,12 @@ from collective.sortedlisting import _
 from collective.sortedlisting.widget import SortableQueryStringFieldWidget
 from plone.app.standardtiles import contentlisting
 from plone.autoform import directives as form
+from plone.tiles.interfaces import ITileType
 from zope import schema
 from zope.component import getMultiAdapter
+from zope.component import queryUtility
 from zope.interface import alsoProvides
+from zope.schema import getFields
 
 
 __author__ = 'Tom Gross <itconsense@gmail.com>'
@@ -36,16 +39,20 @@ class SortableContentListingTile(contentlisting.ContentListingTile):
             (self.context, self.request),
             name='querybuilderresults'
         )
-        results = builder(
-            query=self.query,
-            sort_on=self.sort_on or 'getObjPositionInParent',
-            sort_order=self.sort_order,
-            limit=self.limit
-        )
-        sorting = self.data.get('sorting', '')
-        positions = {j: i for i, j in enumerate(sorting)}
-        return sorted(
-            results, key=lambda item: positions.get(item.uuid(), 999))
+        if self.sort_on is None and self.data.get('sorting', ''):
+            results = builder(query=self.query)
+            sorting = self.data.get('sorting', [])
+            positions = {j: i for i, j in enumerate(sorting)}
+            return sorted(results,
+                          key=lambda item: positions.get(item.uuid(),
+                                                         999))[:self.limit]
+        else:
+            return builder(
+                query=self.query,
+                sort_on=self.sort_on or 'getObjPositionInParent',
+                sort_order=self.sort_order,
+                limit=self.limit
+            )
 
     def contents(self):
         """Search results"""
@@ -55,5 +62,27 @@ class SortableContentListingTile(contentlisting.ContentListingTile):
         options = dict(original_context=self.context)
         alsoProvides(self.request, contentlisting.IContentListingTileLayer)
         return getMultiAdapter((results, self.request), name=view)(**options)
+
+    def update(self):
+        self.query = self.data.get('query')
+        self.sort_on = self.data.get('sort_on')
+
+        if self.query is None:
+            fields = getFields(queryUtility(ITileType,
+                                            name=self.__name__).schema)
+            self.query = getMultiAdapter((
+                self.context,
+                self.request,
+                None,
+                fields['query'],
+                None
+            ), name='default').get()
+
+        self.limit = self.data.get('limit')
+        if self.data.get('sort_reversed'):
+            self.sort_order = 'reverse'
+        else:
+            self.sort_order = 'ascending'
+        self.view_template = self.data.get('view_template')
 
 # EOF

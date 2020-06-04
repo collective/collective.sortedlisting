@@ -10,7 +10,7 @@ from plone.supermodel import model
 from plone.z3cform.textlines import TextLinesFieldWidget
 from zope import schema
 from zope.component import adapter
-from zope.interface import implementer_only
+from zope.interface import implementer
 from zope.interface import provider
 
 
@@ -89,7 +89,7 @@ class ISortableCollectionBehavior(model.Schema):
                 wrapper_css_class='sortableCollection-sorting')
 
 
-@implementer_only(ISortableCollectionBehavior)
+@implementer(ISortableCollectionBehavior)
 @adapter(IDexterityContent)
 class SortableCollectionBehavior(Collection):
     """ """
