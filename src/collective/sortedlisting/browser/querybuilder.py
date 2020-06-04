@@ -34,7 +34,7 @@ class QueryBuilder(BaseQueryBilder):
             brains=True, custom_query=custom_query)
         sorting = self.request.form.get('sorting', '')
         # if sorting is None make it an empty list
-        sorting = isinstance(sorting, basestring) and sorting.split(',') or []
+        sorting = isinstance(sorting, str) and sorting.split(',') or []
         # apply the custom sorting to the resultset according to
         # our sorting list
         positions = {j: i for i, j in enumerate(sorting)}
